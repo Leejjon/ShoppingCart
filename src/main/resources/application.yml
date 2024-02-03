@@ -4,7 +4,21 @@ management:
       base-path: /rest/actuator
       exposure:
         include: '*'
-
+spring:
+  datasource:
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    url: "jdbc:hsqldb:mem:testdb;DB_CLOSE_DELAY=-1"
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: none
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core: TRACE
 springdoc:
   api-docs:
     version: openapi_3_1
