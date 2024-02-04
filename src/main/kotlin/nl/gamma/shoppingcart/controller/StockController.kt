@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -28,16 +29,16 @@ class StockController(val stockInterface: StockInterface) {
     }
 
     @GetMapping("/stores/{id}/product/{productId}/stock")
-    fun getStoreStock(@RequestParam("storeId") storeId: Int,
-                      @RequestParam("productId") productId: Int): GetStoreStockForProduct {
+    fun getStoreStock(@PathVariable("storeId") storeId: Int,
+                      @PathVariable("productId") productId: Int): GetStoreStockForProduct {
         val storeStockForProduct = stockInterface.getStoreStockForProduct(storeId, productId)
         return GetStoreStockForProduct(storeStockForProduct.storeId, storeStockForProduct.brand,
             storeStockForProduct.location, storeStockForProduct.productId, storeStockForProduct.quantity)
     }
 
     @PostMapping("/stores/{storeId}/product/{productId}/stock")
-    fun createStockForProduct(@RequestParam("storeId") storeId: Int,
-                              @RequestParam("productId") productId: Int,
+    fun createStockForProduct(@PathVariable("storeId") storeId: Int,
+                              @PathVariable("productId") productId: Int,
                               @RequestBody requestBody: CreateStockRequestBody
     ): ResponseEntity<Unit> {
         val succesfull = stockInterface.createStoreStockForProduct(
@@ -56,8 +57,8 @@ class StockController(val stockInterface: StockInterface) {
     }
 
     @PutMapping("/stores/{storeId}/product/{productId}/stock")
-    fun updateStockForProduct(@RequestParam("storeId") storeId: Int,
-                              @RequestParam("productId") productId: Int,
+    fun updateStockForProduct(@PathVariable("storeId") storeId: Int,
+                              @PathVariable("productId") productId: Int,
                               @RequestBody requestBody: UpdateStockRequestBody): ResponseEntity<Unit> {
         val successful = stockInterface.updateStoreStockForProduct(
             UpdateStockForProduct(
@@ -75,8 +76,8 @@ class StockController(val stockInterface: StockInterface) {
     }
 
     @DeleteMapping("/stores/{storeId}/product/{productId}/stock")
-    fun deleteStoreStockForProduct(@RequestParam("storeId") storeId: Int,
-                                   @RequestParam("productId") productId: Int): ResponseEntity<Unit>  {
+    fun deleteStoreStockForProduct(@PathVariable("storeId") storeId: Int,
+                                   @PathVariable("productId") productId: Int): ResponseEntity<Unit>  {
         val successfull = stockInterface.deleteStoreStockForProduct(storeId, productId)
         if (successfull) {
             return ResponseEntity.ok().build()
