@@ -13,12 +13,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-logging:
-  level:
-    org:
-      springframework:
-        jdbc:
-          core: TRACE
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        jdbc:
+#          core: TRACE
 springdoc:
   api-docs:
     version: openapi_3_1

@@ -10,4 +10,5 @@ interface StockQueriesInterface {
     fun getStoreStockForProduct(storeId: Int, productId: Int): StoreStockForProduct
     fun reserveProduct(productId: Int, quantityToReserve: Int, ipAddress: String): Number
     fun confirmReservation(reservationId: Int, ipAddress: String): Order
+    fun cleanupExpiredReservations()
 }

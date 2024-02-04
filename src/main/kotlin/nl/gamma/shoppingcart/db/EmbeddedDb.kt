@@ -183,4 +183,28 @@ class EmbeddedDb(val jdbcTemplate: JdbcTemplate) : ProductsQueriesInterface, Sto
             throw ResponseStatusException(HttpStatus.NOT_FOUND)
         }
     }
+
+    override fun cleanupExpiredReservations() {
+        val reservations = jdbcTemplate.query("SELECT id, productId, quantity, storeId FROM RESERVATIONS WHERE expirationDate < CURRENT_TIMESTAMP",
+            RowMapper<Reservation> { rs, rowNum ->
+                Reservation(
+                    rs.getInt("id"),
+                    rs.getInt("productId"),
+                    rs.getInt("quantity"),
+                    rs.getInt("storeId")
+                )
+            }
+        )
+
+        reservations.stream().forEach {
+            jdbcTemplate.update("UPDATE STOCK STK SET STK.QUANTITY = STK.QUANTITY + ? WHERE STOREID = ? AND PRODUCTID = ?") { ps ->
+                ps.setInt(1, it.quantity)
+                ps.setInt(2, it.storeId)
+                ps.setInt(3, it.productId)
+            }
+        }
+
+        val update = jdbcTemplate.update("DELETE FROM RESERVATIONS WHERE expirationDate < CURRENT_TIMESTAMP")
+        log.info("Deleted ${update} reservations.")
+    }
 }

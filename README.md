@@ -45,5 +45,6 @@
 ```
 
 ## Het verlopen van de reserveringen
-* Bij het aanmaken van reserveringen sla ik reserveringen op met een expiration timestamp over vijf minuten van nu.
-* 
+* Bij het aanmaken van reserveringen sla ik reserveringen op met een expirationDate over vijf minuten van nu.
+* Elke vijf seconden loopt een quarts scheduler die checkt of er reserveringen zijn met een expirationDate die in het verleden ligt. Het aantal producten dat gereserveerd was voor een reservering wordt weer bij de voorraad opgeteld. Al deze queries draaien in een database transactie om race conditions te voorkomen.
+* Als deze applicatie in de cloud zou draaien zou ik er gewoon een endpoint voor maken wat aangeroepen wordt door een scheduler van de cloud provider.

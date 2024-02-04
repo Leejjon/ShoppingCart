@@ -14,4 +14,8 @@ class ReservationService(val stockQueriesInterface: StockQueriesInterface) : Res
     override fun confirmReservation(reservationId: Int, ipAddress: String): Order {
         return stockQueriesInterface.confirmReservation(reservationId, ipAddress)
     }
+
+    override fun cleanUpExpiredReservations() {
+        return stockQueriesInterface.cleanupExpiredReservations()
+    }
 }

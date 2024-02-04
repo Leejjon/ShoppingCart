@@ -15,15 +15,4 @@ class ProductController(val productsInterface: ProductsInterface) {
     fun getProducts(): List<GetProductResponse> {
         return productsInterface.getProductsWithAvailability().map { product -> GetProductResponse(product.id, product.name, product.color, product.description, product.totalSupplyInAllStores) }
     }
-
-    @GetMapping("/products/{id}")
-    fun getProduct(@PathVariable("id") productId: String): GetProductResponse {
-        val productIdThatIsAnInt : Int
-        try {
-            productIdThatIsAnInt = productId.toInt()
-        } catch (nfe: NumberFormatException) {
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST)
-        }
-        return GetProductResponse(productIdThatIsAnInt, "Houten Tafel", "geel", "Deze tafel is perfect geschikt voor vier personen.", 5)
-    }
 }
