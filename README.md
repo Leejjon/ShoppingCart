@@ -12,7 +12,7 @@
 * Voor de eis om een artikel voor vijf minuten te kunnen reserveren, heb ik nog twee tabellen gemaakt:
   * Een RESERVATIONS koppeltabel. Als iemand 2 stuks van product X reserveerd, zal ik in een database transactie het aantal van het product in de STOCK tabel verminderen EN een nieuwe record in de RESERVATIONS tabel aanmaken. Dit nieuwe record heeft een timestamp die over vijf minuten verloopt.
   * Een ORDERS koppeltabel. Als iemand de reservatie uit de RESERVATIONS tabel binnen vijf minuten afrekent, dan wordt het een order en krijgt de consumer een order id.
-* Ik maak een /cleanupReservations endpoint aan die eventueel door een cloud scheduler iedere minuut aangeroepen kan worden om in een transactie de stock van verlopen reserveringen weer vrij te geven.
+* Ik maak gebruik van een quartz scheduler om iedere vijf seconden in een transactie de stock van verlopen reserveringen weer vrij te geven.
 * De in memory database wordt bij het opstarten automatisch gevuld door de schema.sql en data.sql scripts in src/main/resources.
 
 ## Design keuzes door tijdgebrek
